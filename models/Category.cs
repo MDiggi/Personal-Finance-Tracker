@@ -27,7 +27,7 @@ namespace Personal_Finance_Tracker.models
         public Category()
         {
             this.id =                        0;
-            this.name =                      "Categoria Nova";
+            this.name =                      "Sem Categoria";
             this.description =               string.Empty;
         }
 
@@ -41,6 +41,13 @@ namespace Personal_Finance_Tracker.models
         public void SetId(uint id)                           { this.id = id; }
         public void SetName(string name)                     { this.name = name; }
         public void SetDescription(string description)       { this.description = description; }
+
+
+        override
+                    public string ToString()
+        {
+            return $"ID: {id}, Name: {name}, Description: {description}";
+        }
     }
 
 }

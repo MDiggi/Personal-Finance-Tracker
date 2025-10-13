@@ -8,7 +8,7 @@ namespace Personal_Finance_Tracker.models
 {
     internal class User
     {
-        private uint? id;
+        private uint? id
         private string? username;
         private string? password;
         private string? email;
@@ -29,6 +29,19 @@ namespace Personal_Finance_Tracker.models
             this.transactions =   transactions;
             this.categories =     categories;
             this.balance =        balance;
+        }
+
+        // Normal User constructor
+        public User(uint id, string username, string password, string email)
+        {
+            this.id =             id;
+            this.username =       username;
+            this.password =       password;
+            this.email =          email;
+            this.createdAt =      DateTime.Now;
+            this.transactions =   new List<Transaction>();
+            this.categories =     new List<Category>();
+            this.balance =        0;
         }
 
         // Default constructor
@@ -65,5 +78,10 @@ namespace Personal_Finance_Tracker.models
         public void SetCategories(List<Category> categories)            { this.categories = categories; }
         public void SetBalance(decimal balance)                         { this.balance = balance; }
 
+        override
+            public string ToString()
+        {
+            return $"User [id={id}, username={username}, password={password}, email={email}, createdAt={createdAt}, balance={balance}, transactions count={transactions.Count}, categories count={categories.Count}]";
+        }
     }
 }
