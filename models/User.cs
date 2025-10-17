@@ -8,7 +8,7 @@ namespace Personal_Finance_Tracker.models
 {
     internal class User
     {
-        private uint? id
+        private uint? id;
         private string? username;
         private string? password;
         private string? email;
