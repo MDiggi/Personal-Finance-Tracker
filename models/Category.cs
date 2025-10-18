@@ -46,7 +46,9 @@ namespace Personal_Finance_Tracker.models
         override
                     public string ToString()
         {
-            return $"ID: {id}, Name: {name}, Description: {description}";
+            return $"ID: {id},\n" +
+                   $"Name: {name}, \n" +
+                   $"Description: {description}";
         }
     }
 

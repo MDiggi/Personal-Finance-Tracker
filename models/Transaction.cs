@@ -16,6 +16,8 @@ namespace Personal_Finance_Tracker.models
         private Category? category;
         private TransactionType? flag;
 
+        
+
 
         //Constructors
         // Parameterized constructor
@@ -31,7 +33,7 @@ namespace Personal_Finance_Tracker.models
         }
 
         // Normal Transaction constructor
-        public Transaction(uint userId, string description, decimal amount, string categoryName, string categoryDescription)
+        public Transaction(uint userId, string description, decimal amount)
         {
             this.id = 0;
             this.userId = userId;
@@ -39,8 +41,7 @@ namespace Personal_Finance_Tracker.models
             this.date = DateTime.Now;
             this.description = description;
             this.amount = amount;
-
-            this.category = new Category(0, categoryName, categoryDescription);
+            this.category = new Category();
             this.flag = amount >= 0 ? TransactionType.Income : TransactionType.Expense;
         }
 
@@ -75,7 +76,13 @@ namespace Personal_Finance_Tracker.models
         override
                     public string ToString()
         {
-            return $"ID: {id}, UserID: {userId} , Date: {date}, Description: {description}, Amount: {amount}, Category: {category?.GetName()}, Type: {flag}";
+            return $"ID: {id}\n" +
+                   $"UserID: {userId} \n" +
+                   $"Date: {date}\n" +
+                   $"Description: {description}\n" +
+                   $"Amount: {amount}\n" +
+                   $"Category: {category?.GetName()}\n" +
+                   $"Type: {flag}";
         }
     }
 }
