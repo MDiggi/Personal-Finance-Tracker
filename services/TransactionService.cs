@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Personal_Finance_Tracker.models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,24 +9,17 @@ namespace Personal_Finance_Tracker.services
 {
     internal class TransactionService<T>
     {
-        private readonly List<T> transations = new List<T>();
+        private readonly List<Transaction> transations = new List<Transaction>();
 
         // Search methods using Predicate<T> for flexibility ========================================================================
-        public T GetById(Predicate<T> predicate)
+        public Transaction GetById(uint id)
         {
-            if (predicate == null)
-                throw new ArgumentNullException(nameof(predicate));
-
-            return transations.Find(predicate);
+            return transations.Find(t => t.GetId() == id);
         }
 
-        public T GetByUserId(Predicate<T> predicate)
+        public Transaction GetByUserId(uint userID)
         {
-            if (predicate == null)
-                throw new ArgumentNullException(nameof(predicate));
-
-            return transations.Find(predicate);
-
+            return transations.Find(t => t.GetUserId() == userID);
         }
 
         public T GetByCategoryId(Predicate<T> predicate)

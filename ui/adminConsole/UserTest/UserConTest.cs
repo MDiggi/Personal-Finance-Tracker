@@ -67,7 +67,7 @@ namespace Personal_Finance_Tracker.ui.adminConsole.UserTest
 
             User user = new User(id, username, password, email, createdAt, transactions, categories, balance);
             userService.Add(user);
-            userService.PrintUser(user);
+            Console.Write(user);
             Console.ReadKey();
             userService.Delete(user);
         }
@@ -87,7 +87,7 @@ namespace Personal_Finance_Tracker.ui.adminConsole.UserTest
             email = Console.ReadLine() ?? string.Empty;
             User user = new User(id, username, password, email);
             userService.Add(user);
-            userService.PrintUser(user);
+            Console.Write(user);
             Console.ReadKey();
             userService.Delete(user);
         }
@@ -97,7 +97,7 @@ namespace Personal_Finance_Tracker.ui.adminConsole.UserTest
             Console.Clear();
             User user = new User();
             userService.Add(user);
-            userService.PrintUser(user);
+            Console.Write(user);
             Console.ReadKey();
             userService.Delete(user);
         }

@@ -9,124 +9,66 @@ namespace Personal_Finance_Tracker.services
 {
     internal class UserService<T>
     {
-        private readonly List<T> users = new List<T>();
+        private readonly List<User> users = new List<User>();
 
-        /*
-============================================================================================================
-
-                //=====================================================================
-                //IdCheck,UsernameCheck and EmailCheck Methods to check if a user exists based on ID or Username
-                //These methods return true if a user matching the predicate exists, otherwise false.
-                //Please do a little bit of research on Predicate<T> to understand how to implement these methods.
-                //And then explain them to me so we are on the same page.
-                //=====================================================================
-                //In the case that you can't get to understand Predicate<T>
-                //try and solve it in another way and explain it totally too, so I can understand it.
-                //=====================================================================
-
-                public bool IdCheck(Predicate<T> predicate)
-                {
-                }
-                 public bool UsernameCheck(Predicate<T> predicate)
-                {
-                }
-                public bool EmailCheck(Predicate<T> predicate)
-                {
-                }
-
-============================================================================================================
-
-
-
-
-        //=====================================================================
-        //These pretty much return the user based on ID or Username
-        //Please try to use Predicate<T> to implement these methods if you are sucessful in the above methods.
-        //=====================================================================
-        /*
-
-
-        public T GetById()
+        public bool IdCheck(uint id)
         {
+            foreach (var user in users)
+            {
+                if (user.GetId() == id)
+                    return true;
+            }
+            return false;
         }
 
-        public T GetByUsername()
+        public bool UsernameCheck(string username)
         {
+            foreach (var user in users)
+            {
+                if (user.GetUsername() == username)
+                    return true;
+            }
+            return false;
         }
 
-        
-
-============================================================================================================
-
-
-
-        //=====================================================================
-        //These pretty much print the user based on ID or Username
-        //Please try to use Predicate<T> to implement these methods if you are sucessful in the above methods.
-        //=====================================================================
-        /*
-
-
-        public void PrintById(uint id)
+        public bool EmailCheck(string email)
         {
-            var user = users.Find(u =>
+            foreach (var user in users)
             {
-                var userIdProperty = u.GetType().GetProperty("id") ?? u.GetType().GetProperty("Id");
-                if (userIdProperty != null)
-                {
-                    var value = userIdProperty.GetValue(u);
-                    if (value is uint userId)
-                    {
-                        return userId == id;
-                    }
-                }
-                return false;
-            });
-            if (user != null)
-            {
-                Console.WriteLine(user);
+                if (user.GetEmail() == email)
+                    return true;
             }
-            else
-            {
-                Console.WriteLine($"User with ID {id} not found.");
-            }
+            return false;
         }
 
-        public void PrintUserByUsername(string username)
+
+        public User GetById( uint id )
         {
-            var user = users.Find(u =>
-            {
-                var usernameProperty = u.GetType().GetProperty("username") ?? u.GetType().GetProperty("Username");
-                if (usernameProperty != null)
-                {
-                    var value = usernameProperty.GetValue(u);
-                    if (value is string userUsername)
-                    {
-                        return userUsername.Equals(username, StringComparison.OrdinalIgnoreCase);
-                    }
-                }
-                return false;
-            });
-            if (user != null)
-            {
-                Console.WriteLine(user);
-            }
-            else
-            {
-                Console.WriteLine($"User with username '{username}' not found.");
-            }
+           foreach (var user in users)
+           {
+                if (user.GetId() == id)
+                     return user;
+           }
+           return null;
         }
 
-============================================================================================================
-        */
-
-        public List<T> GetAll()
+        public User GetByUsername(string username)
         {
-            return new List<T>(users);
+            foreach (var user in users)
+            {
+                if (user.GetUsername() == username)
+                    return user;
+            }
+            return null;
+        }
+
+        public List<User> GetAll()
+        {
+            return new List<User>(users);
         }
 
         // CRUD Operations ==========================================================================================================
-        public void Add(T user)
+        public void Add(User user)
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
@@ -134,7 +76,7 @@ namespace Personal_Finance_Tracker.services
             users.Add(user);
         }
 
-        public bool Delete(T user)
+        public bool Delete(User user)
         {
             if (user == null)
                 return false;
@@ -144,7 +86,7 @@ namespace Personal_Finance_Tracker.services
 
 
         // Update method replaces the old user with the new user ====================================================================
-        public bool Update(T oldUser, T newUser)
+        public bool Update(User oldUser, User newUser)
         {
             if (oldUser == null || newUser == null)
                 return false;
@@ -169,7 +111,7 @@ namespace Personal_Finance_Tracker.services
             users.Clear();
         }
 
-        public bool Contains(T user)
+        public bool Contains(User user)
         {
             if (user == null)
                 return false;
@@ -184,29 +126,6 @@ namespace Personal_Finance_Tracker.services
                 Console.WriteLine(user);
                 Console.WriteLine("===============================================================");
             }
-        }
-
-        public void PrintUser(User user)
-        {
-            if (user != null)
-            {
-                Console.WriteLine(user);
-            }
-            else
-            {
-                Console.WriteLine("User not found.");
-            }
-        }
-
-        public string PrintUserCategories(User user)
-        {
-                return user==null ? "User not found." : user.PrintCategories();
-        }
-        
-        public string PrintUserTransactions(User user)
-        {
-            return user == null ? "User not found." : user.PrintTransactions();
-
         }
     }
 }
