@@ -88,12 +88,14 @@ namespace Personal_Finance_Tracker.services
         // Update method replaces the old user with the new user ====================================================================
         public bool Update(User oldUser, User newUser)
         {
+            users.Remove(newUser);
             if (oldUser == null || newUser == null)
                 return false;
 
             int index = users.IndexOf(oldUser);
+            newUser.SetId(oldUser.GetId());
 
-            if (index == -1)
+            if (index < 0)
                 return false;
 
             users[index] = newUser;

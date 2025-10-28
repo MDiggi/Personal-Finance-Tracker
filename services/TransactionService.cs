@@ -36,10 +36,11 @@ namespace Personal_Finance_Tracker.services
             return userTransactions;
         }
 
-        public List<Transaction> GetByCategoryId(uint categoryId)
+        public List<Transaction> GetByCategoryId(uint categoryId, User user)
         {
             List<Transaction> categoryTransactions = new List<Transaction>();
-            foreach (var transaction in transations)
+
+            foreach (var transaction in user.GetTransactions())
             {
                 if (transaction.GetCategory().GetId() == categoryId)
                 {
@@ -71,10 +72,13 @@ namespace Personal_Finance_Tracker.services
 
         public bool Update(Transaction oldTransaction, Transaction newTransaction)
         {
+            transations.Remove(newTransaction);
+
             if (oldTransaction == null || newTransaction == null)
                 return false;
 
             int index = transations.IndexOf(oldTransaction);
+            newTransaction.SetId(oldTransaction.GetId());
 
             if (index < 0)
                 return false;

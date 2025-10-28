@@ -33,9 +33,9 @@ namespace Personal_Finance_Tracker.models
         }
 
         // Normal Transaction constructor
-        public Transaction(uint userId, string description, decimal amount)
+        public Transaction(uint id, uint userId, string description, decimal amount)
         {
-            this.id = 0;
+            this.id = id;
             this.userId = userId;
             this.description = description;
             this.date = DateTime.Now;

@@ -31,7 +31,6 @@ namespace Personal_Finance_Tracker.ui.adminConsole.UserTest
                 Console.WriteLine("k. Print User by ID");
                 Console.WriteLine("l. Check User Existence by Username");
                 Console.WriteLine("m. Check User Existence by ID");
-                Console.WriteLine("n. Check User Existence by Email");
 
                 Console.WriteLine("0. Exit");
 
@@ -74,9 +73,6 @@ namespace Personal_Finance_Tracker.ui.adminConsole.UserTest
                         break;
                     case 'm':
                         TestExistenceByID();
-                        break;
-                    case 'n':
-                        TestExistenceByEmail();
                         break;
                     case '0':
                         Console.WriteLine("\nExiting User CRUD Test Module...");
@@ -131,7 +127,7 @@ namespace Personal_Finance_Tracker.ui.adminConsole.UserTest
             Console.Clear();
             Console.WriteLine("\nUser added successfully! (Should be 2 Categories, 1 User, 1 Transaction)\n");
             Console.WriteLine("===============================================================");
-            Console.Write(user);
+            Console.WriteLine(user);
             Console.WriteLine("===============================================================");
             Console.WriteLine(user.PrintCategories());
             Console.WriteLine("===============================================================");
@@ -145,6 +141,7 @@ namespace Personal_Finance_Tracker.ui.adminConsole.UserTest
         {
             do
             {
+                Console.Clear();
                 Console.WriteLine("1. User ID:");
                 Console.WriteLine("2. Username: ");
                 Console.WriteLine("0. Exit");
@@ -155,15 +152,15 @@ namespace Personal_Finance_Tracker.ui.adminConsole.UserTest
                     case '1':
                         Console.Write("Enter User ID: ");
                         string userIdInput = Console.ReadLine() ?? string.Empty;
-                        int.TryParse(userIdInput, out int userId);
-                        // User userToDelete = userService.GetById((uint)userId);
-                        //userService.Delete(userToDelete);
+                        uint userID = Convert.ToUInt32(userIdInput);
+                        userService.Delete(userService.GetById(userID));
+                        Console.WriteLine("\nUser deleted successfully!");
                         break;
                     case '2':
                         Console.Write("Enter Username: ");
                         string username = Console.ReadLine() ?? string.Empty;
-                        // User userToDeleteByUsername = userService.GetByUsername(username);
-                        //userService.Delete(userToDeleteByUsername);
+                        userService.Delete(userService.GetByUsername(username));
+                        Console.WriteLine("\nUser deleted successfully!");
                         break;
                     case '0':
                         return;
@@ -172,6 +169,7 @@ namespace Personal_Finance_Tracker.ui.adminConsole.UserTest
                         Console.ReadKey();
                         break;
                 }
+                Console.ReadKey();
             } while (true);
         }
 
@@ -192,13 +190,13 @@ namespace Personal_Finance_Tracker.ui.adminConsole.UserTest
                     Console.Write("Enter User ID: ");
                     string userIdInput = Console.ReadLine() ?? string.Empty;
                     int.TryParse(userIdInput, out int userId);
-                    // oldUser = userService.GetById((uint)userId);
-                    return;
+                    oldUser = userService.GetById((uint)userId);
+                    break;
                 case '2':
                     Console.Write("Enter Username: ");
                     string username = Console.ReadLine() ?? string.Empty;
-                    // oldUser = userService.GetByUsername(username);
-                    return;
+                    oldUser = userService.GetByUsername(username);
+                    break;
                 case '0':
                     return;
                 default:
@@ -220,13 +218,13 @@ namespace Personal_Finance_Tracker.ui.adminConsole.UserTest
                     Console.Write("Enter User ID: ");
                     string userIdInput = Console.ReadLine() ?? string.Empty;
                     int.TryParse(userIdInput, out int userId);
-                    // newUser = userService.GetById((uint)userId);
-                    return;
+                    newUser = userService.GetById((uint)userId);
+                    break;
                 case '2':
                     Console.Write("Enter Username: ");
                     string username = Console.ReadLine() ?? string.Empty;
-                    // newUser = userService.GetByUsername(username);
-                    return;
+                    newUser = userService.GetByUsername(username);
+                    break;
                 case '0':
                     return;
                 default:
@@ -236,6 +234,8 @@ namespace Personal_Finance_Tracker.ui.adminConsole.UserTest
             }
 
             userService.Update(oldUser, newUser);
+            Console.WriteLine("\nUser updated successfully!");
+            Console.ReadKey();
         }
 
         private void TestPrintAllUsers()
@@ -243,6 +243,155 @@ namespace Personal_Finance_Tracker.ui.adminConsole.UserTest
             Console.Clear();
             Console.WriteLine("All Users:");
             userService.PrintAll();
+            Console.ReadKey();
+        }
+
+        private void TestPrintUserByUser()
+        {
+            User pUser = new User();
+
+            Console.Clear();
+            Console.WriteLine("User to Print");
+            Console.WriteLine("1. User ID:");
+            Console.WriteLine("2. Username: ");
+            Console.WriteLine("0. Exit");
+            char? option1 = Console.ReadKey().KeyChar;
+            switch (option1)
+            {
+                case '1':
+                    Console.Write("Enter User ID: ");
+                    string userIdInput = Console.ReadLine() ?? string.Empty;
+                    int userId = Convert.ToInt32(userIdInput);
+                    pUser = userService.GetById((uint)userId);
+                    Console.WriteLine(pUser);
+                    Console.ReadKey();
+                    return;
+                case '2':
+                    Console.Write("Enter Username: ");
+                    string username = Console.ReadLine() ?? string.Empty;
+                    pUser = userService.GetByUsername(username);
+                    Console.WriteLine(pUser);
+                    Console.ReadKey();
+                    return;
+                case '0':
+                    return;
+                default:
+                    Console.WriteLine("\nInvalid Option. Please try again.");
+                    Console.ReadKey();
+                    break;
+            }
+        }
+
+        private void TestCountUsers()
+        {
+            Console.Clear();
+            uint count = userService.Count();
+            Console.WriteLine($"\nTotal Users: {count}");
+            Console.ReadKey();
+        }
+
+        private void TestClearAllUsers()
+        {
+            Console.Clear();
+            userService.Clear();
+            Console.WriteLine("\nAll users cleared successfully!");
+            Console.ReadKey();
+        }
+
+        private void TestExistenceByUser()
+        {
+            User checkUser = new User();
+            Console.Clear();
+            Console.WriteLine("User to Check Existence");
+            Console.WriteLine("1. User ID:");
+            Console.WriteLine("2. Username: ");
+            Console.WriteLine("0. Exit");
+            char? option1 = Console.ReadKey().KeyChar;
+            switch (option1)
+            {
+                case '1':
+                    Console.Write("Enter User ID: ");
+                    string userIdInput = Console.ReadLine() ?? string.Empty;
+                    uint userId = Convert.ToUInt32(userIdInput);
+                    checkUser = userService.GetById(userId);
+                    bool existsById = userService.Contains(checkUser);
+                    Console.WriteLine($"\nUser existence by ID: {existsById}");
+                    Console.ReadKey();
+                    return;
+                case '2':
+                    Console.Write("Enter Username: ");
+                    string username = Console.ReadLine() ?? string.Empty;
+                    checkUser = userService.GetByUsername(username);
+                    bool existsByUsername = userService.Contains(checkUser);
+                    Console.WriteLine($"\nUser existence by Username: {existsByUsername}");
+                    Console.ReadKey();
+                    return;
+                case '0':
+                    return;
+                default:
+                    Console.WriteLine("\nInvalid Option. Please try again.");
+                    Console.ReadKey();
+                    break;
+            }
+        }
+
+        private void TestPrintUserByUsername()
+        {
+            Console.Clear();
+            Console.Write("Enter Username: ");
+            string username = Console.ReadLine() ?? string.Empty;
+            User user = userService.GetByUsername(username);
+
+            if (user != null)
+            {
+                Console.WriteLine(user);
+            }
+            else
+            {
+                Console.WriteLine($"User with username '{username}' not found.");
+            }
+
+            Console.ReadKey();
+        }
+
+        private void TestPrintUserByID()
+        {
+            Console.Clear();
+            Console.Write("Enter User ID: ");
+            string userIdInput = Console.ReadLine() ?? string.Empty;
+            uint userId = Convert.ToUInt32(userIdInput);
+            User user = userService.GetById((uint)userId);
+
+            if (user != null)
+            {
+                Console.WriteLine(user);
+            }
+            else
+            {
+                Console.WriteLine($"User with ID '{userId}' not found.");
+            }
+            Console.ReadKey();
+
+        }
+
+        private void TestExistenceByUsername()
+        {
+            Console.Clear();
+            Console.Write("Enter Username: ");
+            string username = Console.ReadLine() ?? string.Empty;
+            bool exists = userService.UsernameCheck(username);
+            Console.WriteLine($"\nUser existence by Username: {exists}");
+            Console.ReadKey();
+        }
+
+        private void TestExistenceByID()
+        {
+            Console.Clear();
+            Console.Write("Enter User ID: ");
+            string userIdInput = Console.ReadLine() ?? string.Empty;
+            int.TryParse(userIdInput, out int userId);
+            bool exists = userService.IdCheck((uint)userId);
+            Console.WriteLine($"\nUser existence by ID: {exists}");
             Console.ReadKey();
         }
     }
