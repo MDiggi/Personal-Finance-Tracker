@@ -11,32 +11,50 @@ namespace Personal_Finance_Tracker.services
     {
         private readonly List<Transaction> transations = new List<Transaction>();
 
-        // Search methods using Predicate<T> for flexibility ========================================================================
         public Transaction GetById(uint id)
         {
-            return transations.Find(t => t.GetId() == id);
+            foreach (var transaction in transations)
+            {
+                if (transaction.GetId() == id)
+                {
+                    return transaction;
+                }
+            }
+            return null;
         }
 
-        public Transaction GetByUserId(uint userID)
+        public List<Transaction> GetByUserId(uint userID)
         {
-            return transations.Find(t => t.GetUserId() == userID);
+            List<Transaction> userTransactions = new List<Transaction>();
+            foreach (var transaction in transations)
+            {
+                if (transaction.GetUserId() == userID)
+                {
+                    userTransactions.Add(transaction);
+                }
+            }
+            return userTransactions;
         }
 
-        public T GetByCategoryId(Predicate<T> predicate)
+        public List<Transaction> GetByCategoryId(uint categoryId)
         {
-            if (predicate == null)
-                throw new ArgumentNullException(nameof(predicate));
-
-            return transations.Find(predicate);
+            List<Transaction> categoryTransactions = new List<Transaction>();
+            foreach (var transaction in transations)
+            {
+                if (transaction.GetCategory().GetId() == categoryId)
+                {
+                    categoryTransactions.Add(transaction);
+                }
+            }
+            return categoryTransactions;
         }
 
-        public List<T> GetAll()
+        public List<Transaction> GetAll()
         {
-            return new List<T>(transations);
+            return new List<Transaction>(transations);
         }
 
-        // CRUD Operations ==========================================================================================================
-        public void Add(T transaction)
+        public void Add(Transaction transaction)
         {
             if (transaction == null)
                 throw new ArgumentNullException(nameof(transaction));
@@ -44,14 +62,14 @@ namespace Personal_Finance_Tracker.services
             transations.Add(transaction);
         }
 
-        public bool Delete(T transaction)
+        public bool Delete(Transaction transaction)
         {
             if (transaction == null)
                 return false;
             return transations.Remove(transaction);
         }
-        // Update method replaces the old transaction with the new transaction ====================================================
-        public bool Update(T oldTransaction, T newTransaction)
+
+        public bool Update(Transaction oldTransaction, Transaction newTransaction)
         {
             if (oldTransaction == null || newTransaction == null)
                 return false;
@@ -68,19 +86,6 @@ namespace Personal_Finance_Tracker.services
         public void PrintAll()
         {
             foreach (var transaction in transations)
-            {
-                Console.WriteLine(transaction);
-            }
-        }
-
-        public void PrintByUserId(Predicate<T> predicate)
-        {
-            if (predicate == null)
-                throw new ArgumentNullException(nameof(predicate));
-
-            var filteredTransactions = transations.FindAll(predicate);
-
-            foreach (var transaction in filteredTransactions)
             {
                 Console.WriteLine(transaction);
             }

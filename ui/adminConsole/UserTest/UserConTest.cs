@@ -66,10 +66,8 @@ namespace Personal_Finance_Tracker.ui.adminConsole.UserTest
             balance = Convert.ToDecimal(Console.ReadLine());
 
             User user = new User(id, username, password, email, createdAt, transactions, categories, balance);
-            userService.Add(user);
             Console.Write(user);
             Console.ReadKey();
-            userService.Delete(user);
         }
 
         private void TestRegisteringUserConstructor()
@@ -86,20 +84,16 @@ namespace Personal_Finance_Tracker.ui.adminConsole.UserTest
             Console.Write("\nEmail: ");
             email = Console.ReadLine() ?? string.Empty;
             User user = new User(id, username, password, email);
-            userService.Add(user);
             Console.Write(user);
             Console.ReadKey();
-            userService.Delete(user);
         }
 
         private void TestDefaultConstructor()
         {
             Console.Clear();
             User user = new User();
-            userService.Add(user);
             Console.Write(user);
             Console.ReadKey();
-            userService.Delete(user);
         }
     }
 }

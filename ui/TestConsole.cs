@@ -30,7 +30,7 @@ namespace Personal_Finance_Tracker.ui
                         adminConsole.Show();
                         break;
                     case '0':
-                        Console.WriteLine("\ndick");
+                        Console.WriteLine("\nExiting Test Console...");
                         return;
                     default:
                         Console.WriteLine("\nInvalid Option. Please try again.");
